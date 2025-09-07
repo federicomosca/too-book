@@ -28,4 +28,38 @@ public class Unit {
 
     @OneToMany(mappedBy = "unit")
     private List<Shelf> shelves;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
+    }
+
+    public List<Shelf> getShelves() {
+        return shelves;
+    }
+
+    public void setShelves(List<Shelf> shelves) {
+        this.shelves = shelves;
+    }
+
+    
 }
