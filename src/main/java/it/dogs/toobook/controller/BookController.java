@@ -32,12 +32,12 @@ public class BookController {
     @PutMapping
     public ResponseEntity<Book> updateBookDetails(@RequestBody Book book, Long id) {
         Book updatedBook = bookService.updateBookDetails(id, book);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedBook);
+        return ResponseEntity.ok(updatedBook);
     }
 
     @DeleteMapping
     public ResponseEntity<Void> removeBook(@PathVariable Long id) {
         bookService.removeBook(id);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.noContent().build();
     }
 }
