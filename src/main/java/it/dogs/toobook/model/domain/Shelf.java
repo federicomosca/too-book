@@ -1,5 +1,6 @@
 package it.dogs.toobook.model.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,10 +12,13 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "shelves")
 public class Shelf {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false)
+    private String friendlyName;
 
     @ManyToOne
     @JoinColumn(name = "unit_id")
@@ -28,6 +32,14 @@ public class Shelf {
         this.id = id;
     }
 
+    public String getFriendlyName() {
+        return friendlyName;
+    }
+
+    public void setFriendlyName(String friendlyName) {
+        this.friendlyName = friendlyName;
+    }
+
     public Unit getUnit() {
         return unit;
     }
@@ -36,5 +48,4 @@ public class Shelf {
         this.unit = unit;
     }
 
-    
 }

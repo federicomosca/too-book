@@ -3,6 +3,7 @@ package it.dogs.toobook.model.domain;
 import java.util.List;
 
 import it.dogs.toobook.model.domain.enums.Room;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,10 +16,13 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "units")
 public class Unit {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false)
+    private String friendlyName;
 
     @Enumerated(EnumType.STRING)
     private Room room;
@@ -35,6 +39,14 @@ public class Unit {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getFriendlyName() {
+        return friendlyName;
+    }
+
+    public void setFriendlyName(String friendlyName) {
+        this.friendlyName = friendlyName;
     }
 
     public Room getRoom() {
@@ -61,5 +73,4 @@ public class Unit {
         this.shelves = shelves;
     }
 
-    
 }
