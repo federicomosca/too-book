@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,18 @@ public class BookController {
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         Book addedBook = bookService.createBook(book);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedBook);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Book>> pickAllBooks(){
+        List<Book> allBooks = bookService.getAllBooks();
+        return ResponseEntity.ok(allBooks);
+    }
+
+    @GetMapping
+    public ResponseEntity<Book> pickABookById(@PathVariable Long id) {
+        Book selectedBook = bookService.getBookById(id);
+        return ResponseEntity.ok(selectedBook);
     }
 
     @PutMapping("/{id}")
