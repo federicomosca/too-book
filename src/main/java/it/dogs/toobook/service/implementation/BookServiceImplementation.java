@@ -20,32 +20,30 @@ public class BookServiceImplementation implements BookService {
     }
 
     @Override
-    public Book addBook(Book book) {
+    public Book createBook(Book book) {
         return bookRepository.save(book);
     }
 
     @Override
-    public Book updateBookDetails(Long id, Book book) {
+    public Book updateBook(Long id, Book newBook) {
         Optional<Book> existingBook = bookRepository.findById(id);
         if(existingBook.isPresent()) {
             Book bookToUpdate = existingBook.get();
-            bookToUpdate.setTitle(book.getTitle());
-            bookToUpdate.setAuthor(book.getAuthor());
-            bookToUpdate.setGenre(book.getGenre());
-            bookToUpdate.setYear(book.getYear());
-            bookToUpdate.setISBN(book.getISBN());
-            bookToUpdate.setShelf(book.getShelf());
-            bookToUpdate.setSection(book.getSection());
-            bookToUpdate.setUnit(book.getUnit());
+            bookToUpdate.setTitle(newBook.getTitle());
+            bookToUpdate.setAuthor(newBook.getAuthor());
+            bookToUpdate.setGenre(newBook.getGenre());
+            bookToUpdate.setYear(newBook.getYear());
+            bookToUpdate.setISBN(newBook.getISBN());
+            bookToUpdate.setShelf(newBook.getShelf());
+            bookToUpdate.setSection(newBook.getSection());
+            bookToUpdate.setUnit(newBook.getUnit());
             return bookRepository.save(bookToUpdate);
         }
         return null;
     }
 
     @Override
-    public void removeBook(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeBook'");
+    public void deleteBook(Long id) {
     }
 
     @Override
