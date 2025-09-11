@@ -25,19 +25,19 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
-        Book addedBook = bookService.addBook(book);
+        Book addedBook = bookService.createBook(book);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedBook);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBookDetails(@PathVariable Long id, @RequestBody Book book) {
-        Book updatedBook = bookService.updateBookDetails(id, book);
+        Book updatedBook = bookService.updateBook(id, book);
         return ResponseEntity.ok(updatedBook);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeBook(@PathVariable Long id) {
-        bookService.removeBook(id);
+        bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
 }
