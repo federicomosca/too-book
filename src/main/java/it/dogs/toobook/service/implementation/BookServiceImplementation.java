@@ -6,9 +6,12 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import it.dogs.toobook.model.domain.Author;
 import it.dogs.toobook.model.domain.Book;
+import it.dogs.toobook.model.domain.enums.Genre;
 import it.dogs.toobook.repository.BookRepository;
 import it.dogs.toobook.service.BookService;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class BookServiceImplementation implements BookService {
@@ -44,42 +47,53 @@ public class BookServiceImplementation implements BookService {
 
     @Override
     public void deleteBook(Long id) {
+        bookRepository.findById(id).ifPresent(bookRepository::delete);
     }
 
     @Override
-    public Book pickABookById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pickABookById'");
+    public Book getBookById(Long id) {
+        return bookRepository.findById(id)
+        .orElseThrow(()-> new EntityNotFoundException(
+            "Book with id " + id +" not found"));
     }
 
     @Override
-    public List<Book> pickAllBooks() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pickAllBooks'");
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 
     @Override
-    public List<Book> searchABookByTitle(String title) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchABookByTitle'");
+    public Book findBookByTitle(String title) {
+        return bookRepository.findBookByTitle(title)
+        .orElseThrow(()-> new EntityNotFoundException(
+            "Book with title" + title + " not found."
+        ));
     }
 
     @Override
-    public List<Book> searchABookByAuthor(String lastName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchABookByAuthor'");
+    public Book findBookByAuthor(Author author) {
+        return bookRepository.findBookByAuthor(author)
+        .orElseThrow(()-> new EntityNotFoundException(
+            String.format("Book by the author %s %s not found", 
+            author.getFirstName(), 
+            author.getLastName())
+        ));
     }
 
     @Override
-    public List<Book> searchABookByGenre(String genre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchABookByGenre'");
+    public Book findBookByGenre(Genre genre) {
+        return bookRepository.findBookByGenre(genre).orElseThrow(
+            ()-> new EntityNotFoundException(
+                String.format("Book of genre %s not found", genre)
+            )
+        );
     }
 
     @Override
-    public List<Book> searchABookByReleaseDate(LocalDate releaseDate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchABookByReleaseDate'");
-    }
-    
+    public Book findBookByReleaseDate(LocalDate releaseDate) {
+        return bookRepository.findBookByReleaseDate(releaseDate)
+        .orElseThrow(()-> new EntityNotFoundException(
+            String.format("Couldn't find any book released on %tY", releaseDate.getYear()) //rivedere colonna year in Book
+        ));
+    }    
 }

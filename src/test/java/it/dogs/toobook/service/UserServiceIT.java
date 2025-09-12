@@ -49,7 +49,7 @@ public class UserServiceIT {
         book.setTitle("1984");
         book.setAuthor(georgeOrwell);
 
-        Book saved = bookService.addBook(book);
+        Book saved = bookService.createBook(book);
 
         assertNotNull(saved.getId());
         assertEquals("1984", saved.getTitle());
