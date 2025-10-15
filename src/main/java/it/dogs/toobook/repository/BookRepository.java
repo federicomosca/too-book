@@ -15,5 +15,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findBookByTitle(String title);
     Optional<Book> findBookByAuthor(Author author);
     Optional<Book> findBookByGenre(Genre genre);
-    Optional<Book> findBookByReleaseDate(LocalDate releasDate);
+    Optional<Book> findBookByReleaseDate(LocalDate releaseDate);
 }

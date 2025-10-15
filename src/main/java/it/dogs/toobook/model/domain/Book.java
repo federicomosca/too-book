@@ -12,6 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "books")
 public class Book {
@@ -35,6 +37,9 @@ public class Book {
 
     @Enumerated(EnumType.STRING)
     private Genre genre;
+
+    @Column(nullable = true)
+    private LocalDate releaseDate;
 
     @ManyToOne
     @JoinColumn(name = "shelf_id")
@@ -120,5 +125,12 @@ public class Book {
         this.unit = unit;
     }
 
-    
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
 }
