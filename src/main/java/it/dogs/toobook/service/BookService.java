@@ -1,11 +1,10 @@
 package it.dogs.toobook.service;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import it.dogs.toobook.model.domain.Author;
 import it.dogs.toobook.model.domain.Book;
 import it.dogs.toobook.model.domain.enums.Genre;
+
+import java.util.List;
 
 public interface BookService {
     Book createBook(Book book);
@@ -14,7 +13,7 @@ public interface BookService {
     Book getBookById(Long id);
     List<Book> getAllBooks();
     Book findBookByTitle(String title);
-    Book findBookByAuthor(Author author);
-    Book findBookByGenre(Genre genre);
-    Book findBookByReleaseDate(LocalDate releaseDate);
+    List<Book> findBookByAuthor(Author author);
+    List<Book> findBookByGenre(Genre genre);
+    List<Book> findBookByPublicationYear(int publicationYear);
 }

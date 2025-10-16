@@ -9,4 +9,5 @@ public interface AuthorService {
     Author getAuthorById(Long id);
     Author getAuthorByLastName(String lastName);
     Author getAuthorByFirstName(String firstName);
+    Author getAuthorByFullName(String fullName);
 }

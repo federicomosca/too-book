@@ -1,6 +1,6 @@
 package it.dogs.toobook.service.implementation;
 
-import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,12 +30,12 @@ public class BookServiceImplementation implements BookService {
     @Override
     public Book updateBook(Long id, Book newBook) {
         Optional<Book> existingBook = bookRepository.findById(id);
-        if(existingBook.isPresent()) {
+        if (existingBook.isPresent()) {
             Book bookToUpdate = existingBook.get();
             bookToUpdate.setTitle(newBook.getTitle());
             bookToUpdate.setAuthor(newBook.getAuthor());
             bookToUpdate.setGenre(newBook.getGenre());
-            bookToUpdate.setYear(newBook.getYear());
+            bookToUpdate.setPublicationYear(newBook.getPublicationYear());
             bookToUpdate.setISBN(newBook.getISBN());
             bookToUpdate.setShelf(newBook.getShelf());
             bookToUpdate.setSection(newBook.getSection());
@@ -53,8 +53,8 @@ public class BookServiceImplementation implements BookService {
     @Override
     public Book getBookById(Long id) {
         return bookRepository.findById(id)
-        .orElseThrow(()-> new EntityNotFoundException(
-            "Book with id " + id +" not found"));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Book with id " + id + " not found"));
     }
 
     @Override
@@ -65,35 +65,37 @@ public class BookServiceImplementation implements BookService {
     @Override
     public Book findBookByTitle(String title) {
         return bookRepository.findBookByTitle(title)
-        .orElseThrow(()-> new EntityNotFoundException(
-            "Book with title" + title + " not found."
-        ));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Book with title" + title + " not found."
+                ));
     }
 
     @Override
-    public Book findBookByAuthor(Author author) {
-        return bookRepository.findBookByAuthor(author)
-        .orElseThrow(()-> new EntityNotFoundException(
-            String.format("Book by the author %s %s not found", 
-            author.getFirstName(), 
-            author.getLastName())
-        ));
-    }
-
-    @Override
-    public Book findBookByGenre(Genre genre) {
-        return bookRepository.findBookByGenre(genre).orElseThrow(
-            ()-> new EntityNotFoundException(
-                String.format("Book of genre %s not found", genre)
-            )
+    public List<Book> findBookByAuthor(Author author) {
+        boolean isCollectionEmpty = bookRepository.findBookByAuthor(author).isEmpty();
+        if (isCollectionEmpty) throw new EntityNotFoundException(
+                String.format("Book by the author %s %s not found",
+                        author.getFirstName(),
+                        author.getLastName())
         );
+        return bookRepository.findBookByAuthor(author);
     }
 
     @Override
-    public Book findBookByReleaseDate(LocalDate releaseDate) {
-        return bookRepository.findBookByReleaseDate(releaseDate)
-        .orElseThrow(()-> new EntityNotFoundException(
-            String.format("Couldn't find any book released on %tY", releaseDate.getYear()) //rivedere colonna year in Book
-        ));
-    }    
+    public List<Book> findBookByGenre(Genre genre) {
+        boolean isCollectionEmpty = bookRepository.findBookByGenre(genre).isEmpty();
+        if (isCollectionEmpty) throw new EntityNotFoundException(
+                String.format("Book of genre %s not found", genre)
+        );
+        return bookRepository.findBookByGenre(genre);
+    }
+
+    @Override
+    public List<Book> findBookByPublicationYear(int publicationYear) {
+        boolean isCollectionEmpty = bookRepository.findBookByPublicationYear(publicationYear).isEmpty();
+        if (isCollectionEmpty) throw new EntityNotFoundException(
+                String.format("Book of publication year %d not found", publicationYear)
+        );
+        return bookRepository.findBookByPublicationYear(publicationYear);
+    }
 }

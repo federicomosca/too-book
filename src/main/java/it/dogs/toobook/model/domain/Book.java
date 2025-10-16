@@ -12,8 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import java.time.LocalDate;
-
 @Entity
 @Table(name = "books")
 public class Book {
@@ -26,7 +24,7 @@ public class Book {
     private String title;
 
     @Column(nullable = true)
-    private int year;
+    private int publicationYear;
 
     @Column(nullable = true)
     private String ISBN;
@@ -37,9 +35,6 @@ public class Book {
 
     @Enumerated(EnumType.STRING)
     private Genre genre;
-
-    @Column(nullable = true)
-    private LocalDate releaseDate;
 
     @ManyToOne
     @JoinColumn(name = "shelf_id")
@@ -69,12 +64,12 @@ public class Book {
         this.title = title;
     }
 
-    public int getYear() {
-        return year;
+    public int getPublicationYear() {
+        return publicationYear;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear = publicationYear;
     }
 
     public String getISBN() {
@@ -123,14 +118,5 @@ public class Book {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
-    }
-
-
-    public LocalDate getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
     }
 }

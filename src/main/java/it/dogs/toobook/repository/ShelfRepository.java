@@ -5,7 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import it.dogs.toobook.model.domain.Shelf;
 
+import java.util.Optional;
+
 @Repository
 public interface ShelfRepository extends JpaRepository<Shelf, Long> {
-    
+
+    Optional<Shelf> findByFriendlyName(String friendlyName);
 }
