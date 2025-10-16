@@ -9,5 +9,4 @@ public interface SectionService {
     Section getSectionById(Long id);
     Section getSectionByFriendlyName(String friendlyName);
     Section getSectionByUnit(String unitFriendlyName);
-    Section getSectionByShelf(String shelfFriendlyName);
 }
