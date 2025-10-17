@@ -17,4 +17,7 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     Optional<Author> findByFirstName(String firstName);
     Optional<Author> findByLastName(String lastName);
+
+    //potrei implementare una query per fare retrieve in base al periodo di attività
+    //desumibile dall'anno di pubblicazione del primo libro e dell'ultimo libro
 }

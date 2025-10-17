@@ -1,6 +1,7 @@
 package it.dogs.toobook.service;
 
 import it.dogs.toobook.model.domain.Unit;
+import it.dogs.toobook.model.domain.enums.Room;
 
 public interface UnitService {
     Unit createUnit(Unit unit);
@@ -8,7 +9,5 @@ public interface UnitService {
     void deleteUnit(Long id);
     Unit getUnitById(Long id);
     Unit getUnitByFriendlyName(String friendlyName);
-    Unit getUnitByRoom(String room);
-    Unit getUnitBySection(String sectionFriendlyName);
-    Unit getUnitByShelf(String shelfFriendlyName);
+    Unit getUnitByRoom(Room room);
 }

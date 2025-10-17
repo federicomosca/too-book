@@ -1,17 +1,14 @@
 package it.dogs.toobook.service.implementation;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import it.dogs.toobook.model.domain.Author;
 import it.dogs.toobook.model.domain.Book;
 import it.dogs.toobook.model.domain.enums.Genre;
 import it.dogs.toobook.repository.BookRepository;
 import it.dogs.toobook.service.BookService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BookServiceImplementation implements BookService {
@@ -28,33 +25,27 @@ public class BookServiceImplementation implements BookService {
     }
 
     @Override
-    public Book updateBook(Long id, Book newBook) {
-        Optional<Book> existingBook = bookRepository.findById(id);
-        if (existingBook.isPresent()) {
-            Book bookToUpdate = existingBook.get();
-            bookToUpdate.setTitle(newBook.getTitle());
-            bookToUpdate.setAuthor(newBook.getAuthor());
-            bookToUpdate.setGenre(newBook.getGenre());
-            bookToUpdate.setPublicationYear(newBook.getPublicationYear());
-            bookToUpdate.setISBN(newBook.getISBN());
-            bookToUpdate.setShelf(newBook.getShelf());
-            bookToUpdate.setSection(newBook.getSection());
-            bookToUpdate.setUnit(newBook.getUnit());
-            return bookRepository.save(bookToUpdate);
-        }
-        return null;
+    public Book updateBook(Long id, Book book) {
+        Book existing = getBookById(id);
+        existing.setTitle(book.getTitle());
+        existing.setAuthor(book.getAuthor());
+        existing.setGenre(book.getGenre());
+        existing.setPublicationYear(book.getPublicationYear());
+        existing.setISBN(book.getISBN());
+        existing.setShelf(book.getShelf());
+        return bookRepository.save(existing);
     }
 
     @Override
     public void deleteBook(Long id) {
-        bookRepository.findById(id).ifPresent(bookRepository::delete);
+        Book book = getBookById(id);
+        bookRepository.delete(book);
     }
 
     @Override
     public Book getBookById(Long id) {
         return bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Book with id " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Book with id " + id + " not found"));
     }
 
     @Override
@@ -65,37 +56,35 @@ public class BookServiceImplementation implements BookService {
     @Override
     public Book findBookByTitle(String title) {
         return bookRepository.findBookByTitle(title)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Book with title" + title + " not found."
-                ));
+                .orElseThrow(() -> new EntityNotFoundException("Book '" + title + "' not found"));
     }
 
     @Override
-    public List<Book> findBookByAuthor(Author author) {
-        boolean isCollectionEmpty = bookRepository.findBookByAuthor(author).isEmpty();
-        if (isCollectionEmpty) throw new EntityNotFoundException(
-                String.format("Book by the author %s %s not found",
-                        author.getFirstName(),
-                        author.getLastName())
-        );
-        return bookRepository.findBookByAuthor(author);
+    public List<Book> findBooksByAuthor(Author author) {
+        List<Book> books = bookRepository.findBookByAuthor(author);
+        if (books.isEmpty()) {
+            throw new EntityNotFoundException(
+                    String.format("No books by %s %s", author.getFirstName(), author.getLastName()));
+        }
+        return books;
     }
 
     @Override
-    public List<Book> findBookByGenre(Genre genre) {
-        boolean isCollectionEmpty = bookRepository.findBookByGenre(genre).isEmpty();
-        if (isCollectionEmpty) throw new EntityNotFoundException(
-                String.format("Book of genre %s not found", genre)
-        );
-        return bookRepository.findBookByGenre(genre);
+    public List<Book> findBooksByGenre(Genre genre) {
+        List<Book> books = bookRepository.findBookByGenre(genre);
+        if (books.isEmpty()) {
+            throw new EntityNotFoundException("No books of genre " + genre);
+        }
+        return books;
     }
 
     @Override
-    public List<Book> findBookByPublicationYear(int publicationYear) {
-        boolean isCollectionEmpty = bookRepository.findBookByPublicationYear(publicationYear).isEmpty();
-        if (isCollectionEmpty) throw new EntityNotFoundException(
-                String.format("Book of publication year %d not found", publicationYear)
-        );
-        return bookRepository.findBookByPublicationYear(publicationYear);
+    public List<Book> findBooksByPublicationYear(int year) {
+        List<Book> books = bookRepository.findBookByPublicationYear(year);
+        if (books.isEmpty()) {
+            throw new EntityNotFoundException("No books from " + year);
+        }
+        return books;
     }
 }
+

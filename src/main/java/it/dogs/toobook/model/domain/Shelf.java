@@ -21,8 +21,8 @@ public class Shelf {
     private String friendlyName;
 
     @ManyToOne
-    @JoinColumn(name = "unit_id")
-    private Unit unit;
+    @JoinColumn(name = "section_id")
+    private Section section;
 
     public long getId() {
         return id;
@@ -40,12 +40,11 @@ public class Shelf {
         this.friendlyName = friendlyName;
     }
 
-    public Unit getUnit() {
-        return unit;
+    public Section getSection() {
+        return section;
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+    public void setSection(Section section) {
+        this.section = section;
     }
-
 }
