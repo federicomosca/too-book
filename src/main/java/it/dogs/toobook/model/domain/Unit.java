@@ -1,17 +1,9 @@
 package it.dogs.toobook.model.domain;
 
-import java.util.List;
-
 import it.dogs.toobook.model.domain.enums.Room;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "units")
@@ -29,9 +21,6 @@ public class Unit {
 
     @OneToMany(mappedBy = "unit")
     private List<Section> sections;
-
-    @OneToMany(mappedBy = "unit")
-    private List<Shelf> shelves;
 
     public long getId() {
         return id;
@@ -64,13 +53,4 @@ public class Unit {
     public void setSections(List<Section> sections) {
         this.sections = sections;
     }
-
-    public List<Shelf> getShelves() {
-        return shelves;
-    }
-
-    public void setShelves(List<Shelf> shelves) {
-        this.shelves = shelves;
-    }
-
 }

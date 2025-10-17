@@ -1,20 +1,16 @@
 package it.dogs.toobook.controller;
 
-import java.util.List;
-
+import it.dogs.toobook.model.domain.Author;
+import it.dogs.toobook.model.domain.Book;
+import it.dogs.toobook.model.domain.enums.Genre;
+import it.dogs.toobook.service.AuthorService;
+import it.dogs.toobook.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import it.dogs.toobook.model.domain.Book;
-import it.dogs.toobook.service.BookService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/books")
@@ -54,5 +50,33 @@ public class BookController {
     public ResponseEntity<Void> removeBook(@PathVariable Long id) {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Add these to BookController
+
+    @GetMapping("/search/title")
+    public ResponseEntity<Book> searchByTitle(@RequestParam String title) {
+        Book book = bookService.findBookByTitle(title);
+        return ResponseEntity.ok(book);
+    }
+
+    @GetMapping("/search/author")
+    public ResponseEntity<List<Book>> searchByAuthor(@RequestParam String authorName,
+                                                     @Autowired AuthorService authorService) {
+        Author author = authorService.getAuthorByFullName(authorName);
+        List<Book> books = bookService.findBooksByAuthor(author);
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/search/genre")
+    public ResponseEntity<List<Book>> searchByGenre(@RequestParam Genre genre) {
+        List<Book> books = bookService.findBooksByGenre(genre);
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/search/year")
+    public ResponseEntity<List<Book>> searchByYear(@RequestParam int year) {
+        List<Book> books = bookService.findBooksByPublicationYear(year);
+        return ResponseEntity.ok(books);
     }
 }

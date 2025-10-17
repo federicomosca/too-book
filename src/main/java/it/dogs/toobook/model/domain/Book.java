@@ -40,14 +40,6 @@ public class Book {
     @JoinColumn(name = "shelf_id")
     private Shelf shelf;
 
-    @ManyToOne
-    @JoinColumn(name = "section_id")
-    private Section section;
-
-    @ManyToOne
-    @JoinColumn(name = "unit_id")
-    private Unit unit;
-
     public long getId() {
         return id;
     }
@@ -102,21 +94,5 @@ public class Book {
 
     public void setShelf(Shelf shelf) {
         this.shelf = shelf;
-    }
-
-    public Section getSection() {
-        return section;
-    }
-
-    public void setSection(Section section) {
-        this.section = section;
-    }
-
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
     }
 }
