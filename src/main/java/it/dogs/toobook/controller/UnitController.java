@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/units")
 public class UnitController {
@@ -15,6 +17,11 @@ public class UnitController {
 
     public UnitController(UnitService unitService) {
         this.unitService = unitService;
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<Unit>> listUnits () {
+        return ResponseEntity.status(HttpStatus.OK).body(unitService.getAllUnits());
     }
 
     @PostMapping("/add")

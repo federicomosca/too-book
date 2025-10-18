@@ -7,6 +7,8 @@ import it.dogs.toobook.service.UnitService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UnitServiceImplementation implements UnitService {
 
@@ -14,6 +16,11 @@ public class UnitServiceImplementation implements UnitService {
 
     public UnitServiceImplementation(UnitRepository unitRepository) {
         this.unitRepository = unitRepository;
+    }
+
+    @Override
+    public List<Unit> getAllUnits() {
+        return unitRepository.findAll();
     }
 
     @Override
